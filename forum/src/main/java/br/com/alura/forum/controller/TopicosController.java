@@ -3,6 +3,8 @@ package br.com.alura.forum.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,10 +45,12 @@ public class TopicosController {
 	}
 	
 	
-	// --> O parâmetro vêm no corpo da requisição, via método POST
+	// --> @RequestBody : O parâmetro vêm no corpo da requisição, via método POST.
+	// --> O cliente mandou o JSON e o Spring chama o Jackson para pegar e converter no TopicoForm.
+	// --> @Valid: para avisar para o Spring rodar as validações do bean validation.
 	
 	@PostMapping
-	public ResponseEntity<TopicoDto> cadastrar(@RequestBody TopicoForm form, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder) {
 		Topico topico = form.converter(cursoRepository);
 		topicoRepository.save(topico);
 		
