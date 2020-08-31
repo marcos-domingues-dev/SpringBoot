@@ -21,6 +21,14 @@ import br.com.alura.forum.controller.form.LoginForm;
 @RequestMapping("/auth")
 public class AutenticacaoController {
 	
+	
+	/** 
+	 * 
+	 *  Para poder injetar o AuthenticationManager no controller, devemos criar 
+	 *  um método anotado com @Bean, na classe SecurityConfigurations, que retorna 
+	 *  uma chamada ao método super.authenticationManager();
+	 *  */
+	
 	@Autowired
 	private AuthenticationManager authManager;
 	

@@ -13,6 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import br.com.alura.forum.repository.UsuarioRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -23,6 +26,12 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private UserDetailsService userDetailsService;
+    
+    @Autowired
+    UsuarioRepository repository;
+    
+    @Autowired
+    private TokenService tokenService;
     
     @Override
     @Bean
@@ -48,7 +57,8 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.POST, "/auth").permitAll()
 			.anyRequest().authenticated()
 			.and().csrf().disable() // cross-site request forgery -> nao é necessário qdo tem token
-			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); 
+			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, repository), UsernamePasswordAuthenticationFilter.class); 
 		
 		/// **************************************************
 		/// ATENCAO -- > NAO HABILITAR ESTE CONSOLE EM PRODUCAO		
