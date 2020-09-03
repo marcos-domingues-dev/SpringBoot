@@ -54,6 +54,10 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.GET, "/").permitAll()
 			.antMatchers(HttpMethod.GET, "/topicos").permitAll()
 			.antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
+
+			// -> Para testes, vou colocar um permitAll
+			.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
+			
 			.antMatchers(HttpMethod.POST, "/auth").permitAll()
 			.anyRequest().authenticated()
 			.and().csrf().disable() // cross-site request forgery -> nao é necessário qdo tem token
