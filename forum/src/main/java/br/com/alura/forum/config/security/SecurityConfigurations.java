@@ -54,10 +54,11 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.GET, "/").permitAll()
 			.antMatchers(HttpMethod.GET, "/topicos").permitAll()
 			.antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
+			.antMatchers(HttpMethod.DELETE, "/topicos/*").hasRole("MODERADOR")
 
 			// -> Para testes, vou colocar um permitAll
 			.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
-			
+
 			.antMatchers(HttpMethod.POST, "/auth").permitAll()
 			.anyRequest().authenticated()
 			.and().csrf().disable() // cross-site request forgery -> nao é necessário qdo tem token
@@ -80,7 +81,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring()
         .antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
-}
+	}
 	
 	
 	/*
